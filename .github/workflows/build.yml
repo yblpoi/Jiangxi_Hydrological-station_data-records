@@ -67,7 +67,7 @@ jobs:
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub提供的身份验证令牌
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub提供的身份验证令牌
         with:
           tag_name: ${{ github.ref }}  # 使用推送的标签作为发布的版本号
           release_name: Release ${{ github.ref }}  # 发布的名称
@@ -78,7 +78,7 @@ jobs:
       - name: Upload Linux asset to release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/main
@@ -89,7 +89,7 @@ jobs:
       - name: Upload Windows asset to release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./dist/main.exe
