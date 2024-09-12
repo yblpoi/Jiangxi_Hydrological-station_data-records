@@ -15,3 +15,4 @@ Linux and Windows versions are available.
 ## ChangeLog
 
 - Optimized build scripts, resulting in smaller files
+- Fix Linux "ImportError: Unable to import required dependencies:"
