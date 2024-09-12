@@ -6,7 +6,6 @@ Linux and Windows versions are available.
 
 ## Version Information
 
-- Per_station holds data of all monitoring stations.
 - Xingzi_station has independent data of Xingtou Station.
 - The binary version has no suffix and can be used directly by Linux.
 - Windos versions exist.exe suffixes.

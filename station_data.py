@@ -65,7 +65,7 @@ def save_to_excel(data):
     # 检查文件是否存在，存在则追加，不存在则创建新文件
     if os.path.exists(file_path):
         # 追加模式，保留原有数据
-        with pd.ExcelWriter(file_path, mode='a', if_sheet_exists='overlay') as writer:
+        with pd.ExcelWriter(file_path,engine='openpyxl', mode='a', if_sheet_exists='overlay') as writer:
             df.to_excel(writer, sheet_name='Sheet1', startrow=writer.sheets['Sheet1'].max_row, index=False, header=False)
     else:
         # 创建新文件
