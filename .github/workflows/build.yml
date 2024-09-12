@@ -51,7 +51,7 @@ jobs:
 
       # 上传生成的二进制文件为 artifacts
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-${{ matrix.os }}
           path: ./dist/per_station_data${{ matrix.extension }}
@@ -74,22 +74,9 @@ jobs:
 
       # 上传 Linux 版本到 Release
       - name: Upload Linux asset to release
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/per_station_data  # 确保路径正确
-          asset_name: per_station_data-linux
-          asset_content_type: application/octet-stream
+          files: ./dist/*
 
-      # 上传 Windows 版本到 Release
-      - name: Upload Windows asset to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/per_station_data.exe  # 确保路径正确
-          asset_name: per_station_data-windows.exe
-          asset_content_type: application/octet-stream
