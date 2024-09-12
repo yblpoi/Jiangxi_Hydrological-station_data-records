@@ -69,6 +69,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           files: ./dist/*
-          body_path: ${{ github.workspace }}-CHANGELOG.md
+          body_path: CHANGELOG.md
 
 
