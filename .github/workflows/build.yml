@@ -28,25 +28,30 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.10.6  # 指定Python版本为3.10.6
-
-      # 安装依赖项（如果有）
-      - name: Install dependencies
+          
+      - name: Set up venv
         run: |
+          python -m venv venv  # 创建虚拟环境
+          source ./venv/bin/activate || .\venv\Scripts\activate  # 激活虚拟环境
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       # 安装 PyInstaller
       - name: Install PyInstaller
-        run: pip install pyinstaller
+        run: |
+          source ./venv/bin/activate || .\venv\Scripts\activate
+          pip install pyinstaller
 
       # 打包为可执行文件，使用 per_station_data.py
       - name: Build per-executable with PyInstaller
         run: |
+          source ./venv/bin/activate || .\venv\Scripts\activate
           pyinstaller --hidden-import numpy --hidden-import pandas --strip --clean --onefile --name per_station_data --distpath ./dist per_station_data.py  # 使用 per_station_data.py 文件
           ls -l ./dist  # 打印 dist 目录，确认文件生成
 
       - name: Build executable with PyInstaller
         run: |
+          source ./venv/bin/activate || .\venv\Scripts\activate
           pyinstaller --hidden-import numpy --hidden-import pandas --strip --clean --onefile --name xingzi_station_data --distpath ./dist station_data.py  # 使用 station_data.py 文件
           ls -l ./dist  # 打印 dist 目录，确认文件生成
 
