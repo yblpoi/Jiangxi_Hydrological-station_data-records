@@ -23,11 +23,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      # 设置Python环境
+      # 设置Python环境为3.10.6
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10.6  # 您需要的Python版本
+          python-version: 3.10.6  # 指定Python版本为3.10.6
 
       # 安装依赖项（如果有）
       - name: Install dependencies
@@ -39,23 +39,22 @@ jobs:
       - name: Install PyInstaller
         run: pip install pyinstaller
 
-      # 打包为可执行文件
+      # 打包为可执行文件，使用 per_station_data.py
       - name: Build executable with PyInstaller
         run: |
-          pyinstaller --onefile --strip --clean --distpath ./dist per_station_data.py
+          pyinstaller --onefile per_station_data.py  # 使用 per_station_data.py 文件
+          ls -l ./dist  # 打印 dist 目录，确认文件生成
 
       # 列出 dist 目录中的文件
       - name: List dist directory
         run: ls -R ./dist
 
-
-      # 上传生成的二进制文件为GitHub的artifact
+      # 上传生成的二进制文件为 artifacts
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: executable-${{ matrix.os }}
           path: ./dist/per_station_data${{ matrix.extension }}
-
 
   release:
     needs: build  # 确保 release job 在 build job 完成后运行
@@ -66,10 +65,10 @@ jobs:
         id: create_release  # 设置一个ID，以便后续步骤引用
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub 提供的身份验证令牌
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: ${{ github.ref }}  # 使用推送的标签作为发布的版本号
-          release_name: Release ${{ github.ref }}  # 发布的名称
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
 
@@ -79,8 +78,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}  # 获取前一个步骤中创建的 release 的 upload_url
-          asset_path: ./dist/per_station_data
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/per_station_data  # 确保路径正确
           asset_name: per_station_data-linux
           asset_content_type: application/octet-stream
 
@@ -90,7 +89,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}  # 获取 upload_url
-          asset_path: ./dist/per_station_data.exe
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./dist/per_station_data.exe  # 确保路径正确
           asset_name: per_station_data-windows.exe
           asset_content_type: application/octet-stream
