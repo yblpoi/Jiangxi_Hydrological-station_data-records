@@ -64,9 +64,11 @@ jobs:
       # 上传到 Release
       - name: Upload to release
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           files: ./dist/*
+          body_path: ${{ github.workspace }}-CHANGELOG.md
 
 
