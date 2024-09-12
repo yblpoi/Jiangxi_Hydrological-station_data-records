@@ -56,12 +56,7 @@ jobs:
           name: executable-${{ matrix.os }}
           path: ./dist/per_station_data${{ matrix.extension }}
 
-  release:
-    needs: build  # 确保 release job 在 build job 完成后运行
-    runs-on: ubuntu-latest
-    steps:
-      # 创建 GitHub Release
-      - name: Create GitHub Release
+      - name: Create Release
         id: create_release  # 设置一个ID，以便后续步骤引用
         uses: actions/create-release@v1
         env:
@@ -73,10 +68,11 @@ jobs:
           prerelease: false
 
       # 上传 Linux 版本到 Release
-      - name: Upload Linux asset to release
+      - name: Upload to release
         uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           files: ./dist/*
+
 
