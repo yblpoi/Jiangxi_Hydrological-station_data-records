@@ -1,6 +1,6 @@
-# Jiangxi Hydrological Station Data Records
+# Jiangxi Xinzi Hydrological Station Data Records
 
-Every time this script runs, it records the data from the Jiangxi Hydrological Station into an excel spreadsheet.
+Every time this script runs, it records the data from the Jiangxi Xingzi Hydrological Station into an excel spreadsheet.
 
 ## How to use
 
