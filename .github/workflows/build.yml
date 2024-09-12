@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-${{ matrix.os }}
-          path: ./dist/main${{ matrix.extension }}
+          path: ./dist/per_station_data${{ matrix.extension }}
 
 
   release:
