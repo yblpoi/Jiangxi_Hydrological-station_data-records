@@ -21,7 +21,7 @@ jobs:
     steps:
       # 检出代码仓库
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       
       # 设置Python环境为3.10.6
       - name: Set up Python
