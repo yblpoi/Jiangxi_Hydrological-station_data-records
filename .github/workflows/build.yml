@@ -51,39 +51,41 @@ jobs:
           name: executable-${{ matrix.os }}
           path: ./dist/main${{ matrix.extension }}
 
+
   release:
-    needs: build  # 等待build任务完成
+    needs: build  # 确保 release job 在 build job 完成后运行
     runs-on: ubuntu-latest
     steps:
-      # 创建GitHub Release
+      # 创建 GitHub Release
       - name: Create GitHub Release
+        id: create_release  # 设置一个ID，以便后续步骤引用
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub提供的身份验证令牌
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # GitHub 提供的身份验证令牌
         with:
           tag_name: ${{ github.ref }}  # 使用推送的标签作为发布的版本号
           release_name: Release ${{ github.ref }}  # 发布的名称
           draft: false
           prerelease: false
 
-      # 上传Linux版本到Release
+      # 上传 Linux 版本到 Release
       - name: Upload Linux asset to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # 获取前一个步骤中创建的 release 的 upload_url
           asset_path: ./dist/main
           asset_name: main-linux
           asset_content_type: application/octet-stream
 
-      # 上传Windows版本到Release
+      # 上传 Windows 版本到 Release
       - name: Upload Windows asset to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # 获取 upload_url
           asset_path: ./dist/main.exe
           asset_name: main-windows.exe
           asset_content_type: application/octet-stream
