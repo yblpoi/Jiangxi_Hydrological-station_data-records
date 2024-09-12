@@ -35,14 +35,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 安装pyminifier
-      - name: Install pyminifier
-        run: pip install pyminifier
-
-      # 精简代码
-      - name: Pyminifier
-        run: pyminifier --gzip --nonlatin --obfuscate --outfile min_per_station_data.py per_station_data.py
-
       # 安装 PyInstaller
       - name: Install PyInstaller
         run: pip install pyinstaller
@@ -50,7 +42,7 @@ jobs:
       # 打包为可执行文件
       - name: Build executable with PyInstaller
         run: |
-          pyinstaller --onefile --strip --clean  per_station_data.py
+          pyinstaller --onefile --strip --clean per_station_data.py
 
       # 上传生成的二进制文件为GitHub的artifact
       - name: Upload artifact
