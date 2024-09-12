@@ -56,18 +56,7 @@ jobs:
           name: executable-${{ matrix.os }}
           path: ./dist/per_station_data${{ matrix.extension }}
 
-      - name: Create Release
-        id: create_release  # 设置一个ID，以便后续步骤引用
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      # 上传 Linux 版本到 Release
+      # 上传到 Release
       - name: Upload to release
         uses: softprops/action-gh-release@v2
         env:
